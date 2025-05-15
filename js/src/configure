@@ -6185,7 +6185,10 @@ fi
 if test "$GNU_CC"; then
     # Per bug 719659 comment 2, some of the headers on ancient build machines
     # may require gnu89 inline semantics.  But otherwise, we use C99.
-    CFLAGS="$CFLAGS -std=gnu99 -fgnu89-inline"
+    CFLAGS="$CFLAGS -std=gnu99"
+    if test "${OS_ARCH}" != Darwin; then
+      CFLAGS="$CFLAGS -fgnu89-inline"
+    fi
     MKSHLIB='$(CXX) $(CXXFLAGS) $(DSO_PIC_CFLAGS) $(DSO_LDOPTS) -Wl,-h,$@ -o $@'
     MKCSHLIB='$(CC) $(CFLAGS) $(DSO_PIC_CFLAGS) $(DSO_LDOPTS) -Wl,-h,$@ -o $@'
     DSO_LDOPTS='-shared'
@@ -15512,7 +15515,7 @@ if test "$no_recursion" != yes; then
     esac
 
     ac_popdir=`pwd`
-    cd $ac_config_dir
+    cd "$ac_config_dir"
 
       # A "../" for each directory in /$ac_config_dir.
       ac_dots=`echo $ac_config_dir|sed -e 's%^\./%%' -e 's%[^/]$%&/%' -e 's%[^/]*/%../%g'`
@@ -15559,7 +15562,7 @@ if test "$no_recursion" != yes; then
       fi
     fi
 
-    cd $ac_popdir
+    cd "$ac_popdir"
   done
 fi
 
